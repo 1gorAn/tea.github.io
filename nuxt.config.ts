@@ -19,13 +19,28 @@ export default defineNuxtConfig({
   ssr: false, // Отключаем SSR для статического деплоя
   
   app: {
-    baseURL: process.env.NODE_ENV === 'production' ? '/' : '/',
+    baseURL: process.env.NODE_ENV === 'production' ? '/tea.github.io/' : '/',
     buildAssetsDir: '/_nuxt/'
   },
 
   nitro: {
     prerender: {
       routes: ['/']
+    }
+  },
+
+  // Дополнительные настройки для GitHub Pages
+  experimental: {
+    payloadExtraction: false
+  },
+
+  vite: {
+    build: {
+      rollupOptions: {
+        output: {
+          manualChunks: undefined
+        }
+      }
     }
   }
 })
