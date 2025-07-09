@@ -1,0 +1,70 @@
+@import "tailwindcss";
+@import "@nuxt/ui";
+
+@theme static {
+  --font-sans: 'Public Sans', sans-serif;
+
+  --color-green-50: #effdf5;
+  --color-green-100: #d9fbe8;
+  --color-green-200: #b3f5d1;
+  --color-green-300: #75edae;
+  --color-green-400: #00dc82;
+  --color-green-500: #00c16a;
+  --color-green-600: #00a155;
+  --color-green-700: #007f45;
+  --color-green-800: #016538;
+  --color-green-900: #0a5331;
+  --color-green-950: #052e16;
+}
+
+/* Глобальные стили для центрирования кнопок */
+.u-button {
+  text-align: center !important;
+  justify-content: center !important;
+  display: flex !important;
+  align-items: center !important;
+}
+
+.u-button .u-button__content {
+  justify-content: center !important;
+  align-items: center !important;
+  text-align: center !important;
+  width: 100% !important;
+  gap: 0.5rem !important;
+  display: flex !important;
+}
+
+.u-button .u-button__label {
+  text-align: center !important;
+  width: 100% !important;
+  flex: 1 !important;
+  display: flex !important;
+  justify-content: center !important;
+  align-items: center !important;
+}
+
+.u-button .iconify {
+  flex-shrink: 0 !important;
+}
+
+/* Специфичные стили для кнопок с классом w-full */
+.u-button[class*="w-full"] {
+  justify-content: center !important;
+  text-align: center !important;
+}
+
+.u-button[class*="w-full"] .u-button__content {
+  justify-content: center !important;
+  align-items: center !important;
+  text-align: center !important;
+  width: 100% !important;
+  display: flex !important;
+}
+
+.u-button[class*="w-full"] .u-button__label {
+  text-align: center !important;
+  justify-content: center !important;
+  align-items: center !important;
+  display: flex !important;
+  width: 100% !important;
+}
