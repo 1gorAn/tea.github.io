@@ -68,3 +68,24 @@
   display: flex !important;
   width: 100% !important;
 }
+
+/* Стили для темной темы */
+.dark {
+  --color-background: #1a1a1a;
+  --color-text: #ffffff;
+  --color-border: #333333;
+  --color-card: #2a2a2a;
+}
+
+/* Стили для светлой темы */
+.light {
+  --color-background: #f9fafb;
+  --color-text: #111827;
+  --color-border: #e5e7eb;
+  --color-card: #ffffff;
+}
+
+/* Плавные переходы для смены темы */
+* {
+  transition: background-color 0.2s ease, color 0.2s ease, border-color 0.2s ease;
+}

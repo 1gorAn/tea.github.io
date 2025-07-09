@@ -42,5 +42,12 @@ export default defineNuxtConfig({
         }
       }
     }
+  },
+
+  // Настройки темы
+  colorMode: {
+    preference: 'system',
+    fallback: 'light',
+    classSuffix: ''
   }
 })
