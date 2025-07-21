@@ -2,7 +2,7 @@
   <div class="container mx-auto px-2 md:px-4 py-8">
     <div class="max-w-md mx-auto text-center">
       <!-- Skeleton loader -->
-      <div v-if="loading" class="space-y-6">
+      <div v-if="loading" class="space-y-6 p-4">
         <div class="w-24 h-24 bg-gray-200 rounded-full mx-auto animate-pulse"></div>
         <div class="space-y-4">
           <div class="h-8 bg-gray-200 rounded w-3/4 mx-auto"></div>
@@ -13,7 +13,7 @@
       </div>
 
       <!-- Основной контент -->
-      <div v-else class="space-y-8">
+      <div v-else class="space-y-8 p-4">
         <!-- Иконка успеха -->
         <div class="w-24 h-24 bg-green-100 rounded-full flex items-center justify-center mx-auto">
           <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" class="w-16 h-16 text-green-600">

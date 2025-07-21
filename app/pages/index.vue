@@ -1,7 +1,7 @@
 <template>
   <div class="container mx-auto px-4 py-8">
     <h1 class="text-3xl font-bold text-center mb-8 transition-colors" :class="currentTheme === 'dark' ? 'text-white' : 'text-gray-800'">
-      Наши чаи
+      Чаек тут 🫖
     </h1>
     
     <div class="grid grid-cols-2 gap-4 md:gap-6">
@@ -82,12 +82,20 @@
 </template>
 
 <script setup>
+import { ref, onMounted } from 'vue'
+
 const { restoreScrollPosition } = useScrollPosition()
 const { getTotalItems } = useCart()
 const { currentTheme } = useTelegramTheme()
 
-// Состояние загрузки
+const products = ref([])
 const loading = ref(true)
+
+onMounted(async () => {
+  const res = await fetch('/products.json')
+  products.value = await res.json()
+  loading.value = false
+})
 
 // Общее количество товаров в корзине
 const cartTotal = computed(() => getTotalItems())
@@ -97,62 +105,10 @@ onMounted(() => {
   restoreScrollPosition()
   
   // Имитируем загрузку данных
-  setTimeout(() => {
-    loading.value = false
-  }, 300)
+  // setTimeout(() => {
+  //   loading.value = false
+  // }, 300)
 })
-
-// Данные товаров
-const products = ref([
-  {
-    id: 1,
-    name: 'Зеленый чай "Дракон"',
-    description: 'Нежный зеленый чай с легким цветочным ароматом. Идеален для утреннего чаепития.',
-    price: 450,
-    image: 'https://images.unsplash.com/photo-1556909114-f6e7ad7d3136?w=400&h=300&fit=crop',
-    isNew: true
-  },
-  {
-    id: 2,
-    name: 'Черный чай "Эрл Грей"',
-    description: 'Классический черный чай с бергамотом. Насыщенный вкус с цитрусовыми нотками.',
-    price: 380,
-    image: 'https://images.unsplash.com/photo-1544787219-7f47ccb76574?w=400&h=300&fit=crop',
-    isNew: false
-  },
-  {
-    id: 3,
-    name: 'Улун "Железная Богиня"',
-    description: 'Полуферментированный чай с богатым вкусом и медовым послевкусием.',
-    price: 520,
-    image: 'https://images.unsplash.com/photo-1571934811356-5cc061b6821f?w=400&h=300&fit=crop',
-    isNew: false
-  },
-  {
-    id: 4,
-    name: 'Ройбуш "Ваниль"',
-    description: 'Южноафриканский травяной чай с натуральной ванилью. Без кофеина.',
-    price: 290,
-    image: 'https://images.unsplash.com/photo-1556909114-f6e7ad7d3136?w=400&h=300&fit=crop',
-    isNew: true
-  },
-  {
-    id: 5,
-    name: 'Пуэр "Древний"',
-    description: 'Выдержанный постферментированный чай с землистым вкусом и сложным ароматом.',
-    price: 680,
-    image: 'https://images.unsplash.com/photo-1544787219-7f47ccb76574?w=400&h=300&fit=crop',
-    isNew: false
-  },
-  {
-    id: 6,
-    name: 'Белый чай "Серебряные иглы"',
-    description: 'Элитный белый чай из нежных почек. Легкий и освежающий вкус.',
-    price: 750,
-    image: 'https://images.unsplash.com/photo-1571934811356-5cc061b6821f?w=400&h=300&fit=crop',
-    isNew: true
-  }
-])
 </script>
 
 <style scoped>

@@ -1,6 +1,6 @@
 <template>
   <div class="container mx-auto px-2 md:px-4 py-8">
-    <div class="max-w-2xl mx-auto">
+    <div class="max-w-2xl mx-auto p-4">
       <!-- Заголовок -->
       <div class="flex items-center justify-between mb-8">
         <h1 class="text-2xl font-bold text-gray-800">
@@ -150,71 +150,20 @@
 </template>
 
 <script setup>
+import { ref, computed, onMounted } from 'vue'
+import { useCart } from '@/composables/useCart'
+
 const { getCartItems, addToCart, removeFromCart, getCartItemQuantity } = useCart()
 
-// Состояние загрузки
 const loading = ref(true)
+const products = ref([])
 
-// Имитируем загрузку данных
-onMounted(() => {
-  setTimeout(() => {
-    loading.value = false
-  }, 300)
+onMounted(async () => {
+  const res = await fetch('/products.json')
+  products.value = await res.json()
+  loading.value = false
 })
 
-// Данные товаров (в реальном проекте это должно быть в отдельном файле или API)
-const products = ref([
-  {
-    id: 1,
-    name: 'Зеленый чай "Дракон"',
-    description: 'Нежный зеленый чай с легким цветочным ароматом. Идеален для утреннего чаепития.',
-    price: 450,
-    image: 'https://images.unsplash.com/photo-1556909114-f6e7ad7d3136?w=400&h=300&fit=crop',
-    isNew: true
-  },
-  {
-    id: 2,
-    name: 'Черный чай "Эрл Грей"',
-    description: 'Классический черный чай с бергамотом. Насыщенный вкус с цитрусовыми нотками.',
-    price: 380,
-    image: 'https://images.unsplash.com/photo-1544787219-7f47ccb76574?w=400&h=300&fit=crop',
-    isNew: false
-  },
-  {
-    id: 3,
-    name: 'Улун "Железная Богиня"',
-    description: 'Полуферментированный чай с богатым вкусом и медовым послевкусием.',
-    price: 520,
-    image: 'https://images.unsplash.com/photo-1571934811356-5cc061b6821f?w=400&h=300&fit=crop',
-    isNew: false
-  },
-  {
-    id: 4,
-    name: 'Ройбуш "Ваниль"',
-    description: 'Южноафриканский травяной чай с натуральной ванилью. Без кофеина.',
-    price: 290,
-    image: 'https://images.unsplash.com/photo-1556909114-f6e7ad7d3136?w=400&h=300&fit=crop',
-    isNew: true
-  },
-  {
-    id: 5,
-    name: 'Пуэр "Древний"',
-    description: 'Выдержанный постферментированный чай с землистым вкусом и сложным ароматом.',
-    price: 680,
-    image: 'https://images.unsplash.com/photo-1544787219-7f47ccb76574?w=400&h=300&fit=crop',
-    isNew: false
-  },
-  {
-    id: 6,
-    name: 'Белый чай "Серебряные иглы"',
-    description: 'Элитный белый чай из нежных почек. Легкий и освежающий вкус.',
-    price: 750,
-    image: 'https://images.unsplash.com/photo-1571934811356-5cc061b6821f?w=400&h=300&fit=crop',
-    isNew: true
-  }
-])
-
-// Получаем товары в корзине с информацией о продуктах
 const cartItems = computed(() => {
   const items = getCartItems()
   return items.map(item => ({
@@ -223,14 +172,12 @@ const cartItems = computed(() => {
   })).filter(item => item.product)
 })
 
-// Общая стоимость
 const totalPrice = computed(() => {
   return cartItems.value.reduce((total, item) => {
     return total + (item.product.price * item.quantity)
   }, 0)
 })
 
-// Функции для изменения количества
 const increaseQuantity = (productId) => {
   addToCart(productId, 1)
 }
@@ -239,7 +186,6 @@ const decreaseQuantity = (productId) => {
   removeFromCart(productId, 1)
 }
 
-// Полное удаление товара из корзины
 const removeItemCompletely = (productId) => {
   const currentQuantity = getCartItemQuantity(productId)
   removeFromCart(productId, currentQuantity)

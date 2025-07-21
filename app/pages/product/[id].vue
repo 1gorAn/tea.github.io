@@ -1,6 +1,6 @@
 <template>
   <div class="container mx-auto px-2 md:px-4 py-8">
-    <div v-if="loading" class="max-w-2xl mx-auto">
+    <div v-if="loading" class="max-w-2xl mx-auto p-4">
       <!-- Skeleton loader для детальной страницы -->
       <div class="mb-6">
         <div class="w-20 h-8 bg-gray-200 rounded mb-6"></div>
@@ -35,7 +35,7 @@
       </div>
     </div>
 
-    <div v-else-if="product" class="max-w-2xl mx-auto">
+    <div v-else-if="product" class="max-w-2xl mx-auto p-4">
       <!-- Заголовок с кнопками -->
       <div class="flex items-center justify-between mb-6">
         <UButton
@@ -184,66 +184,25 @@
 </template>
 
 <script setup>
+import { ref, computed, onMounted, watch } from 'vue'
+import { useRoute, useRouter } from 'vue-router'
+import { useScrollPosition } from '@/composables/useScrollPosition'
+import { useCart } from '@/composables/useCart'
+
 const route = useRoute()
+const router = useRouter()
 const { saveScrollPosition } = useScrollPosition()
 const { addToCart, removeFromCart, getTotalItems, getCartItemQuantity } = useCart()
 
-// Состояние загрузки
 const loading = ref(true)
+const products = ref([])
 
-// Данные товаров (в реальном проекте это должно быть в отдельном файле или API)
-const products = ref([
-  {
-    id: 1,
-    name: 'Зеленый чай "Дракон"',
-    description: 'Нежный зеленый чай с легким цветочным ароматом. Идеален для утреннего чаепития.',
-    price: 450,
-    image: 'https://images.unsplash.com/photo-1556909114-f6e7ad7d3136?w=400&h=300&fit=crop',
-    isNew: true
-  },
-  {
-    id: 2,
-    name: 'Черный чай "Эрл Грей"',
-    description: 'Классический черный чай с бергамотом. Насыщенный вкус с цитрусовыми нотками.',
-    price: 380,
-    image: 'https://images.unsplash.com/photo-1544787219-7f47ccb76574?w=400&h=300&fit=crop',
-    isNew: false
-  },
-  {
-    id: 3,
-    name: 'Улун "Железная Богиня"',
-    description: 'Полуферментированный чай с богатым вкусом и медовым послевкусием.',
-    price: 520,
-    image: 'https://images.unsplash.com/photo-1571934811356-5cc061b6821f?w=400&h=300&fit=crop',
-    isNew: false
-  },
-  {
-    id: 4,
-    name: 'Ройбуш "Ваниль"',
-    description: 'Южноафриканский травяной чай с натуральной ванилью. Без кофеина.',
-    price: 290,
-    image: 'https://images.unsplash.com/photo-1556909114-f6e7ad7d3136?w=400&h=300&fit=crop',
-    isNew: true
-  },
-  {
-    id: 5,
-    name: 'Пуэр "Древний"',
-    description: 'Выдержанный постферментированный чай с землистым вкусом и сложным ароматом.',
-    price: 680,
-    image: 'https://images.unsplash.com/photo-1544787219-7f47ccb76574?w=400&h=300&fit=crop',
-    isNew: false
-  },
-  {
-    id: 6,
-    name: 'Белый чай "Серебряные иглы"',
-    description: 'Элитный белый чай из нежных почек. Легкий и освежающий вкус.',
-    price: 750,
-    image: 'https://images.unsplash.com/photo-1571934811356-5cc061b6821f?w=400&h=300&fit=crop',
-    isNew: true
-  }
-])
+onMounted(async () => {
+  const res = await fetch('/products.json')
+  products.value = await res.json()
+  loading.value = false
+})
 
-// Находим товар по ID
 const product = computed(() => {
   const id = parseInt(route.params.id)
   return products.value.find(p => p.id === id)
