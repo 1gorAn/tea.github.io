@@ -163,7 +163,7 @@ const loading = ref(true)
 const products = ref([])
 
 onMounted(async () => {
-  const res = await fetch('/products.json')
+  const res = await fetch('/tea.github.io/products.json')
   products.value = await res.json()
   loading.value = false
 })
