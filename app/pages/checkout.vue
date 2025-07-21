@@ -249,6 +249,35 @@ const validatePhone = () => {
   return true
 }
 
+const getTelegramUserName = () => {
+  if (typeof window !== 'undefined' && window.Telegram && window.Telegram.WebApp && window.Telegram.WebApp.initDataUnsafe && window.Telegram.WebApp.initDataUnsafe.user) {
+    const user = window.Telegram.WebApp.initDataUnsafe.user;
+    return [user.first_name, user.last_name].filter(Boolean).join(' ');
+  }
+  return '';
+}
+
+const sendOrderToTelegram = async (phone, cartItems, totalPrice) => {
+  if (!cartItems.length) return; // Не отправлять пустой заказ
+  const token = '7588197727:AAEPsmserZqQa0VOsoguwc6KyTx_Otzor6U';
+  const chatId = '435415398';
+  const userName = getTelegramUserName();
+  let text = `🛒 Новый заказ\n`;
+  if (userName) text += `Имя: ${userName}\n`;
+  text += `Телефон: ${phone}\n`;
+  text += '\nТовары:';
+  cartItems.forEach(item => {
+    text += `\n- ${item.product.name} (${item.quantity} x ${item.product.price}₽)`;
+  });
+  text += `\n\nИтого: ${totalPrice}₽`;
+  const url = `https://api.telegram.org/bot${token}/sendMessage?chat_id=${chatId}&text=${encodeURIComponent(text)}`;
+  try {
+    await fetch(url);
+  } catch (e) {
+    // Можно добавить обработку ошибки
+  }
+}
+
 // Оформление заказа
 const submitOrder = async () => {
   if (!validatePhone()) return
@@ -263,6 +292,7 @@ const submitOrder = async () => {
   
   // Переходим на страницу успеха
   navigateTo('/order-success')
+  await sendOrderToTelegram(phone.value, cartItems.value, totalPrice.value);
 }
 </script>
 
