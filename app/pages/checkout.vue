@@ -284,14 +284,13 @@ const submitOrder = async () => {
   isSubmitting.value = true
   
   // Имитируем отправку заказа
-  await new Promise(resolve => setTimeout(resolve, 1500))
+  await sendOrderToTelegram(phone.value, cartItems.value, totalPrice.value);
   
   // Очищаем корзину
   clearCart()
   
   // Переходим на страницу успеха
   navigateTo('/order-success')
-  await sendOrderToTelegram(phone.value, cartItems.value, totalPrice.value);
 }
 </script>
 
