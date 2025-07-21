@@ -19,7 +19,7 @@ export default defineNuxtConfig({
   ssr: false, // Отключаем SSR для статического деплоя
   
   app: {
-    baseURL: process.env.NODE_ENV === 'production' ? '/tea.github.io/' : '/',
+    baseURL: '/tea.github.io/', // Для корректной работы в подпапке на GitHub Pages
     buildAssetsDir: '/_nuxt/'
   },
 
