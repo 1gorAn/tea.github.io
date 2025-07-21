@@ -1,50 +1,31 @@
-export const useTelegramTheme = () => {
-  const colorMode = useColorMode()
-  
-  // Определяем Telegram WebApp
-  const isTelegramWebApp = computed(() => {
-    return typeof window !== 'undefined' && window.Telegram?.WebApp
-  })
-  
-  // Получаем тему из Telegram
-  const getTelegramTheme = () => {
-    if (isTelegramWebApp.value) {
-      return window.Telegram.WebApp.colorScheme
+import { ref, onMounted } from 'vue'
+
+const currentTheme = ref<'light' | 'dark'>('light')
+
+function detectTelegramTheme() {
+  if (typeof window !== 'undefined' && (window as any).Telegram && (window as any).Telegram.WebApp) {
+    const tg = (window as any).Telegram.WebApp
+    if (tg.colorScheme === 'dark') {
+      currentTheme.value = 'dark'
+    } else {
+      currentTheme.value = 'light'
     }
-    return 'light'
-  }
-  
-  // Синхронизируем тему с Telegram
-  const syncWithTelegramTheme = () => {
-    if (isTelegramWebApp.value) {
-      const telegramTheme = getTelegramTheme()
-      colorMode.preference = telegramTheme
-      
-      // Слушаем изменения темы в Telegram
-      window.Telegram.WebApp.onEvent('themeChanged', () => {
-        const newTheme = getTelegramTheme()
-        colorMode.preference = newTheme
-      })
+    tg.onEvent('themeChanged', () => {
+      currentTheme.value = tg.colorScheme === 'dark' ? 'dark' : 'light'
+    })
+  } else {
+    // fallback: определяем по prefers-color-scheme
+    if (window.matchMedia && window.matchMedia('(prefers-color-scheme: dark)').matches) {
+      currentTheme.value = 'dark'
+    } else {
+      currentTheme.value = 'light'
     }
   }
-  
-  // Инициализация при загрузке
+}
+
+export function useTelegramTheme() {
   onMounted(() => {
-    syncWithTelegramTheme()
+    detectTelegramTheme()
   })
-  
-  // Возвращаем реактивную тему
-  const currentTheme = computed(() => {
-    if (isTelegramWebApp.value) {
-      return getTelegramTheme()
-    }
-    return colorMode.value
-  })
-  
-  return {
-    isTelegramWebApp,
-    currentTheme,
-    syncWithTelegramTheme,
-    getTelegramTheme
-  }
+  return { currentTheme }
 } 

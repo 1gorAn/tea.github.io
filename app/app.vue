@@ -7,7 +7,21 @@
 </template>
 
 <script setup>
+import "@/assets/css/main.css"
+import "@/assets/css/theme.css"
+import { useTelegramTheme } from "@/composables/useTelegramTheme"
+import { onMounted, watch } from 'vue'
+import { useHead } from '@vueuse/head'
+
 const { currentTheme } = useTelegramTheme()
+
+onMounted(() => {
+  document.documentElement.classList.toggle('dark', currentTheme.value === 'dark')
+})
+
+watch(currentTheme, (val) => {
+  document.documentElement.classList.toggle('dark', val === 'dark')
+})
 
 // Классы для темной/светлой темы
 const themeClasses = computed(() => {
@@ -29,7 +43,11 @@ useHead({
     {
       name: 'color-scheme',
       content: currentTheme.value === 'dark' ? 'dark' : 'light'
-    }
+    },
+    {
+      name: 'theme-color',
+      content: currentTheme.value === 'dark' ? '#1a1a1a' : '#f9fafb',
+    },
   ]
 })
 </script>

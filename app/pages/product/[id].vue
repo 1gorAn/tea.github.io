@@ -1,5 +1,5 @@
 <template>
-  <div class="container mx-auto px-4 py-8">
+  <div class="container mx-auto px-2 md:px-4 py-8">
     <div v-if="loading" class="max-w-2xl mx-auto">
       <!-- Skeleton loader для детальной страницы -->
       <div class="mb-6">
