@@ -155,4 +155,46 @@ const products = ref([
 ])
 </script>
 
+<style scoped>
+:deep(.container) {
+  background: var(--color-background);
+  color: var(--color-text);
+  border-radius: 1.25rem;
+  box-shadow: 0 2px 16px 0 rgba(0,0,0,0.12);
+}
+
+:deep(.dark .container) {
+  background: var(--color-background);
+  color: var(--color-text);
+}
+
+:deep(.text-gray-800),
+:deep(.text-gray-600),
+:deep(.text-gray-500) {
+  color: var(--color-text) !important;
+}
+
+:deep(.dark .bg-gray-200),
+:deep(.dark .bg-gray-100),
+:deep(.dark .bg-gray-50),
+:deep(.dark .bg-white) {
+  background: #23272f !important;
+}
+
+:deep(.dark .border-gray-300),
+:deep(.dark .border) {
+  border-color: var(--color-border) !important;
+}
+
+:deep(.dark .rounded-lg),
+:deep(.dark .u-card) {
+  background: var(--color-card) !important;
+}
+
+:deep(.dark .shadow-lg),
+:deep(.dark .shadow-sm) {
+  box-shadow: 0 2px 16px 0 rgba(0,0,0,0.20) !important;
+}
+</style>
+
 

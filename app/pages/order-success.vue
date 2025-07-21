@@ -149,4 +149,74 @@ onMounted(() => {
   display: flex !important;
   width: 100% !important;
 }
+
+/* --- DARK THEME SUPPORT --- */
+:deep(.container) {
+  background: var(--color-background);
+  color: var(--color-text);
+  border-radius: 1.25rem;
+  box-shadow: 0 2px 16px 0 rgba(0,0,0,0.12);
+}
+
+:deep(.max-w-md) {
+  background: var(--color-card);
+  border-radius: 1.25rem;
+  box-shadow: 0 2px 16px 0 rgba(0,0,0,0.10);
+}
+
+:deep(.dark .container),
+:deep(.dark .max-w-md) {
+  background: var(--color-background);
+  color: var(--color-text);
+}
+
+:deep(.text-gray-800),
+:deep(.text-gray-600),
+:deep(.text-gray-500) {
+  color: var(--color-text) !important;
+}
+
+:deep(.dark .bg-gray-200),
+:deep(.dark .bg-gray-100),
+:deep(.dark .bg-gray-50),
+:deep(.dark .bg-white) {
+  background: #23272f !important;
+}
+
+:deep(.dark .border-gray-300),
+:deep(.dark .border) {
+  border-color: var(--color-border) !important;
+}
+
+:deep(.dark .bg-blue-50) {
+  background: #1e293b !important;
+}
+
+:deep(.dark .text-blue-700) {
+  color: #60a5fa !important;
+}
+
+:deep(.dark .bg-green-50),
+:deep(.dark .bg-green-100) {
+  background: #052e16 !important;
+}
+:deep(.dark .text-green-700),
+:deep(.dark .text-green-600) {
+  color: #34d399 !important;
+}
+
+:deep(.dark .bg-yellow-50) {
+  background: #3b2f13 !important;
+}
+:deep(.dark .text-yellow-700) {
+  color: #fde68a !important;
+}
+
+:deep(.dark .rounded-lg) {
+  background: var(--color-card);
+}
+
+:deep(.dark .shadow-sm) {
+  box-shadow: 0 2px 16px 0 rgba(0,0,0,0.20) !important;
+}
 </style> 
