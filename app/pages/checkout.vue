@@ -259,7 +259,6 @@ const getTelegramUserName = () => {
 
 const sendOrderToTelegram = async (phone, cartItems, totalPrice) => {
   if (!cartItems.length) return; // Не отправлять пустой заказ
-  const token = '7588197727:AAEPsmserZqQa0VOsoguwc6KyTx_Otzor6U';
   const chatId = '435415398';
   const userName = getTelegramUserName();
   let text = `🛒 Новый заказ\n`;
@@ -270,7 +269,7 @@ const sendOrderToTelegram = async (phone, cartItems, totalPrice) => {
     text += `\n- ${item.product.name} (${item.quantity} x ${item.product.price}₽)`;
   });
   text += `\n\nИтого: ${totalPrice}₽`;
-  const url = `https://api.telegram.org/bot${token}/sendMessage?chat_id=${chatId}&text=${encodeURIComponent(text)}`;
+  const url = `https://api.telegram.org/bot7588197727:AAEPsmserZqQa0VOsoguwc6KyTx_Otzor6U/sendMessage?chat_id=${chatId}&text=${encodeURIComponent(text)}`;
   try {
     await fetch(url);
   } catch (e) {
