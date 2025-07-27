@@ -31,11 +31,17 @@ declare global {
             language_code?: string
           }
         }
+        platform: string
+        version: string
         onEvent: (eventType: string, eventHandler: () => void) => void
         offEvent: (eventType: string, eventHandler: () => void) => void
         ready: () => void
         expand: () => void
         close: () => void
+        enableClosingConfirmation: () => void
+        setHeaderColor: (color: string) => void
+        setBackgroundColor: (color: string) => void
+        setBackButtonColor: (color: string) => void
         MainButton: {
           text: string
           color: string

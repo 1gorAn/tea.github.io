@@ -20,7 +20,16 @@ export default defineNuxtConfig({
   
   app: {
     baseURL: '/tea.github.io/', // Правильный путь для репозитория tea.github.io
-    buildAssetsDir: '/tea.github.io/_nuxt/'
+    buildAssetsDir: '/tea.github.io/_nuxt/',
+    head: {
+      viewport: 'width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, viewport-fit=cover',
+      meta: [
+        { name: 'viewport', content: 'width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, viewport-fit=cover' },
+        { name: 'apple-mobile-web-app-capable', content: 'yes' },
+        { name: 'apple-mobile-web-app-status-bar-style', content: 'black-translucent' },
+        { name: 'format-detection', content: 'telephone=no' }
+      ]
+    }
   },
 
   nitro: {
