@@ -21,6 +21,11 @@
    - `TELEGRAM_BOT_TOKEN` - токен вашего бота
    - `TELEGRAM_CHAT_ID` - ID чата для уведомлений
 
+## Требования
+
+- Node.js >= 20.9.0
+- npm >= 10.0.0 или yarn >= 1.22.0
+
 ## Setup
 
 Make sure to install the dependencies:
