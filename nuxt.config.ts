@@ -20,7 +20,7 @@ export default defineNuxtConfig({
   
   app: {
     baseURL: '/tea.github.io/', // Правильный путь для репозитория tea.github.io
-    buildAssetsDir: '/_nuxt/'
+    buildAssetsDir: '/tea.github.io/_nuxt/'
   },
 
   nitro: {
