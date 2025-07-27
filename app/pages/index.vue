@@ -92,7 +92,7 @@ const products = ref([])
 const loading = ref(true)
 
 onMounted(async () => {
-  const res = await fetch('https://1goran.github.io/tea.github.io/products.json')
+  const res = await fetch('https://1goran.github.io/products.json')
   products.value = await res.json()
   loading.value = false
 })

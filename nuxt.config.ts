@@ -19,7 +19,7 @@ export default defineNuxtConfig({
   ssr: false, // Отключаем SSR для статического деплоя
   
   app: {
-    baseURL: '/tea.github.io/', // Для корректной работы в подпапке на GitHub Pages
+    baseURL: '/', // Убираем подпапку, так как репозиторий называется tea.github.io
     buildAssetsDir: '/_nuxt/'
   },
 
