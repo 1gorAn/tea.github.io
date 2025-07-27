@@ -1,0 +1,83 @@
+/* Telegram Theme Variables */
+:root {
+  /* Основные цвета */
+  --tg-theme-bg-color: #ffffff;
+  --tg-theme-text-color: #000000;
+  --tg-theme-hint-color: #999999;
+  --tg-theme-link-color: #2481cc;
+  --tg-theme-button-color: #2481cc;
+  --tg-theme-button-text-color: #ffffff;
+  
+  /* Дополнительные цвета */
+  --tg-theme-secondary-bg-color: #f1f1f1;
+  --tg-theme-accent-text-color: #2481cc;
+  --tg-theme-section-bg-color: #ffffff;
+  --tg-theme-subtitle-text-color: #999999;
+  --tg-theme-destructive-text-color: #ff3b30;
+  
+  /* Fallback цвета для темной темы */
+  --fallback-bg-color: #ffffff;
+  --fallback-text-color: #000000;
+  --fallback-hint-color: #999999;
+  --fallback-link-color: #2481cc;
+  --fallback-button-color: #2481cc;
+  --fallback-button-text-color: #ffffff;
+}
+
+/* Темная тема (fallback) */
+@media (prefers-color-scheme: dark) {
+  :root {
+    --fallback-bg-color: #1c1c1e;
+    --fallback-text-color: #ffffff;
+    --fallback-hint-color: #8e8e93;
+    --fallback-link-color: #0a84ff;
+    --fallback-button-color: #0a84ff;
+    --fallback-button-text-color: #ffffff;
+  }
+}
+
+/* Применение Telegram цветов */
+.telegram-theme {
+  background-color: var(--tg-theme-bg-color, var(--fallback-bg-color));
+  color: var(--tg-theme-text-color, var(--fallback-text-color));
+}
+
+.telegram-theme .hint-text {
+  color: var(--tg-theme-hint-color, var(--fallback-hint-color));
+}
+
+.telegram-theme .link {
+  color: var(--tg-theme-link-color, var(--fallback-link-color));
+}
+
+.telegram-theme .button {
+  background-color: var(--tg-theme-button-color, var(--fallback-button-color));
+  color: var(--tg-theme-button-text-color, var(--fallback-button-text-color));
+}
+
+.telegram-theme .secondary-bg {
+  background-color: var(--tg-theme-secondary-bg-color, var(--fallback-bg-color));
+}
+
+.telegram-theme .accent-text {
+  color: var(--tg-theme-accent-text-color, var(--fallback-link-color));
+}
+
+.telegram-theme .section-bg {
+  background-color: var(--tg-theme-section-bg-color, var(--fallback-bg-color));
+}
+
+.telegram-theme .subtitle-text {
+  color: var(--tg-theme-subtitle-text-color, var(--fallback-hint-color));
+}
+
+.telegram-theme .destructive-text {
+  color: var(--tg-theme-destructive-text-color, #ff3b30);
+}
+
+/* Адаптивные стили для Telegram */
+@media (max-width: 480px) {
+  .telegram-theme {
+    /* Дополнительные стили для мобильных устройств в Telegram */
+  }
+} 

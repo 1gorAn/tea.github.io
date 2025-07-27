@@ -7,7 +7,7 @@ export default defineNuxtConfig({
     '@nuxt/eslint'
   ],
 
-  css: ['~/assets/css/main.css'],
+  css: ['~/assets/css/main.css', '~/assets/css/telegram-theme.css'],
 
   future: {
     compatibilityVersion: 4

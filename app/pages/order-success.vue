@@ -1,5 +1,5 @@
 <template>
-  <div class="container mx-auto px-2 md:px-4 py-8">
+  <div class="container mx-auto px-2 md:px-4 py-8 telegram-theme">
     <div class="max-w-md mx-auto text-center">
       <!-- Skeleton loader -->
       <div v-if="loading" class="space-y-6 p-4">

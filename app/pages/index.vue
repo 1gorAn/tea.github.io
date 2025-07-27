@@ -1,6 +1,6 @@
 <template>
-  <div class="container mx-auto px-4 py-8">
-    <h1 class="text-3xl font-bold text-center mb-8 transition-colors" :class="currentTheme === 'dark' ? 'text-white' : 'text-gray-800'">
+  <div class="container mx-auto px-4 py-8 telegram-theme">
+    <h1 class="text-3xl font-bold text-center mb-8 transition-colors">
       Чаек тут 🫖
     </h1>
     
@@ -57,7 +57,7 @@
           </template>
 
           <div class="p-1">
-            <h3 class="text-sm font-semibold transition-colors" :class="currentTheme === 'dark' ? 'text-white' : 'text-gray-800'">
+            <h3 class="text-sm font-semibold transition-colors">
               {{ product.name }}
             </h3>
           </div>
