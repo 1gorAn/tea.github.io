@@ -88,8 +88,13 @@
           </div>
 
           <p class="text-gray-600">
+            <strong>Состав:</strong> {{ product?.ingredients }}
+          </p>
+
+          <p class="text-gray-600">
             {{ product?.description }}
           </p>
+
 
           <div class="text-xl font-bold text-green-600">
             {{ product?.price }} ₽
