@@ -1,9 +1,10 @@
-import { useTelegramTheme } from '@/composables/useTelegramTheme'
-
 export default defineNuxtPlugin(() => {
-  const { currentTheme } = useTelegramTheme()
   if (process.client) {
-    if (currentTheme.value === 'dark') {
+    // Проверяем Telegram WebApp
+    const webApp = typeof window !== 'undefined' && window.Telegram?.WebApp
+    const isDark = webApp && webApp.colorScheme === 'dark'
+    
+    if (isDark) {
       document.documentElement.classList.add('dark')
     } else {
       document.documentElement.classList.remove('dark')

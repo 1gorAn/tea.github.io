@@ -50,6 +50,10 @@ export const useTelegramTheme = () => {
     applyThemeToCSS()
   }
 
+  const isInTelegramApp = () => {
+    return !!getTelegramWebApp()
+  }
+
   const applyThemeToCSS = () => {
     if (typeof document === 'undefined') return
 
@@ -119,6 +123,7 @@ export const useTelegramTheme = () => {
     themeParams,
     colorScheme,
     isTelegramApp,
+    isInTelegramApp,
     getThemeColor,
     isDarkTheme,
     initTheme,

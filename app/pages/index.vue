@@ -86,7 +86,7 @@ import { ref, onMounted } from 'vue'
 
 const { restoreScrollPosition } = useScrollPosition()
 const { getTotalItems } = useCart()
-const { currentTheme } = useTelegramTheme()
+const { colorScheme } = useTelegramTheme()
 
 const products = ref([])
 const loading = ref(true)
