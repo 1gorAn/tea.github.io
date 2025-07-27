@@ -210,9 +210,17 @@ const isSubmitting = ref(false)
 
 // Валидация формы
 const isFormValid = computed(() => {
-  return phone.value.trim().length >= 10 && 
-         recipientName.value.trim().length >= 2 && 
-         cartItems.value.length > 0
+  const phoneValid = phone.value.trim().length >= 10
+  const nameValid = recipientName.value.trim().length >= 2
+  const cartValid = cartItems.value.length > 0
+  
+  console.log('=== FORM VALIDATION ===')
+  console.log('Phone valid:', phoneValid, 'Length:', phone.value.trim().length)
+  console.log('Name valid:', nameValid, 'Length:', recipientName.value.trim().length)
+  console.log('Cart valid:', cartValid, 'Items:', cartItems.value.length)
+  console.log('Form valid:', phoneValid && nameValid && cartValid)
+  
+  return phoneValid && nameValid && cartValid
 })
 
 // Форматирование телефона
@@ -258,29 +266,42 @@ const formatPhone = () => {
 
 // Валидация имени
 const validateName = () => {
+  console.log('=== VALIDATE NAME ===')
+  console.log('Recipient name:', recipientName.value)
+  console.log('Trimmed length:', recipientName.value.trim().length)
+  
   if (!recipientName.value.trim()) {
+    console.log('❌ Name is empty')
     nameError.value = 'Введите имя получателя'
     return false
   }
   if (recipientName.value.trim().length < 2) {
+    console.log('❌ Name too short')
     nameError.value = 'Имя должно содержать минимум 2 символа'
     return false
   }
+  console.log('✅ Name validation passed')
   nameError.value = ''
   return true
 }
 
 // Валидация телефона
 const validatePhone = () => {
+  console.log('=== VALIDATE PHONE ===')
+  console.log('Phone:', phone.value)
+  
   const phoneRegex = /^\+7\s?\(\d{3}\)\s?\d{3}-\d{2}-\d{2}$/
   if (!phone.value.trim()) {
+    console.log('❌ Phone is empty')
     phoneError.value = 'Введите номер телефона'
     return false
   }
   if (!phoneRegex.test(phone.value.trim())) {
+    console.log('❌ Phone format invalid')
     phoneError.value = 'Введите корректный номер телефона'
     return false
   }
+  console.log('✅ Phone validation passed')
   phoneError.value = ''
   return true
 }
@@ -300,6 +321,16 @@ const sendOrderToTelegram = async (recipientName, phone, cartItems, totalPrice) 
   const chatId = config.public.telegramChatId;
   const botToken = config.public.telegramBotToken;
   
+  // Отладочная информация
+  console.log('=== TELEGRAM DEBUG ===')
+  console.log('Config:', config)
+  console.log('Bot Token:', botToken)
+  console.log('Chat ID:', chatId)
+  console.log('Recipient Name:', recipientName)
+  console.log('Phone:', phone)
+  console.log('Cart Items:', cartItems)
+  console.log('Total Price:', totalPrice)
+  
   const userName = getTelegramUserName();
   let text = `🛒 Новый заказ\n`;
   text += `Получатель: ${recipientName}\n`;
@@ -311,21 +342,58 @@ const sendOrderToTelegram = async (recipientName, phone, cartItems, totalPrice) 
   });
   text += `\n\nИтого: ${totalPrice}₽`;
   
-  const url = `https://api.telegram.org/bot${botToken}/sendMessage?chat_id=${chatId}&text=${encodeURIComponent(text)}`;
-  try {
-    await fetch(url);
-  } catch (e) {
-    // Можно добавить обработку ошибки
-    console.error('Ошибка отправки в Telegram:', e);
+  console.log('Message text:', text)
+  
+  // Проверяем наличие токена
+  console.log('Checking bot token...')
+  console.log('Bot token exists:', !!botToken)
+  
+  if (!botToken) {
+    console.warn('⚠️ Telegram Bot Token не настроен. Уведомление не будет отправлено.')
+    console.warn('Настройте переменную окружения NUXT_APP_TELEGRAM_BOT_TOKEN в GitHub Secrets.')
+    return
   }
+  
+  console.log('Message text:', text)
+  
+  const url = `https://api.telegram.org/bot${botToken}/sendMessage?chat_id=${chatId}&text=${encodeURIComponent(text)}`;
+  console.log('Telegram URL:', url)
+  
+  try {
+    console.log('Отправляем запрос к Telegram API...')
+    const response = await fetch(url);
+    console.log('Telegram response status:', response.status)
+    console.log('Telegram response statusText:', response.statusText)
+    
+    const responseText = await response.text()
+    console.log('Telegram response body:', responseText)
+    
+    if (!response.ok) {
+      console.error('❌ Telegram API error:', responseText)
+    } else {
+      console.log('✅ Сообщение успешно отправлено в Telegram')
+    }
+  } catch (e) {
+    console.error('❌ Ошибка отправки в Telegram:', e);
+  }
+  
+  console.log('=== END TELEGRAM DEBUG ===')
 }
 
 // Оформление заказа
 const submitOrder = async () => {
-  if (!validateName() || !validatePhone()) return
+  console.log('=== SUBMIT ORDER DEBUG ===')
+  console.log('Validating form...')
   
+  if (!validateName() || !validatePhone()) {
+    console.log('❌ Form validation failed')
+    return
+  }
+  
+  console.log('✅ Form validation passed')
   isSubmitting.value = true
   
+  console.log('Saving order details...')
   // Сохраняем детали заказа
   setOrderDetails({
     recipientName: recipientName.value,
@@ -334,14 +402,19 @@ const submitOrder = async () => {
     items: cartItems.value
   })
   
+  console.log('Sending order to Telegram...')
   // Имитируем отправку заказа
   await sendOrderToTelegram(recipientName.value, phone.value, cartItems.value, totalPrice.value);
   
+  console.log('Clearing cart...')
   // Очищаем корзину
   clearCart()
   
+  console.log('Navigating to success page...')
   // Переходим на страницу успеха
   navigateTo('/order-success')
+  
+  console.log('=== END SUBMIT ORDER DEBUG ===')
 }
 </script>
 

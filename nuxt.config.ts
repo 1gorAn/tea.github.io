@@ -54,8 +54,8 @@ export default defineNuxtConfig({
   // Переменные окружения
   runtimeConfig: {
     public: {
-      telegramBotToken: process.env.TELEGRAM_BOT_TOKEN,
-      telegramChatId: process.env.TELEGRAM_CHAT_ID || '435415398'
+      telegramBotToken: process.env.NUXT_APP_TELEGRAM_BOT_TOKEN,
+      telegramChatId: process.env.NUXT_APP_TELEGRAM_CHAT_ID || '435415398'
     }
   }
 })

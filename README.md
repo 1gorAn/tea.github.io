@@ -18,8 +18,12 @@
 
 1. Перейдите в Settings → Secrets and variables → Actions
 2. Добавьте секреты:
-   - `TELEGRAM_BOT_TOKEN` - токен вашего бота
-   - `TELEGRAM_CHAT_ID` - ID чата для уведомлений
+   - `NUXT_APP_TELEGRAM_BOT_TOKEN` - токен вашего бота
+   - `NUXT_APP_TELEGRAM_CHAT_ID` - ID чата для уведомлений
+
+**Подробные инструкции:** [TELEGRAM_SETUP.md](./TELEGRAM_SETUP.md)
+
+**Новый токен:** [NEW_TOKEN_SETUP.md](./NEW_TOKEN_SETUP.md)
 
 ## Требования
 

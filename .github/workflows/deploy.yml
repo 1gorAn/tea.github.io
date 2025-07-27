@@ -32,8 +32,8 @@ jobs:
       
       - name: Build with environment variables
         env:
-          TELEGRAM_BOT_TOKEN: ${{ secrets.TELEGRAM_BOT_TOKEN }}
-          TELEGRAM_CHAT_ID: ${{ secrets.TELEGRAM_CHAT_ID }}
+          NUXT_APP_TELEGRAM_BOT_TOKEN: ${{ secrets.NUXT_APP_TELEGRAM_BOT_TOKEN }}
+          NUXT_APP_TELEGRAM_CHAT_ID: ${{ secrets.NUXT_APP_TELEGRAM_CHAT_ID }}
         run: yarn build
       
       - name: Setup Pages
