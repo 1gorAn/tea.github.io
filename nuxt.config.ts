@@ -49,5 +49,13 @@ export default defineNuxtConfig({
     preference: 'system',
     fallback: 'light',
     classSuffix: ''
+  },
+
+  // Переменные окружения
+  runtimeConfig: {
+    public: {
+      telegramBotToken: process.env.TELEGRAM_BOT_TOKEN,
+      telegramChatId: process.env.TELEGRAM_CHAT_ID || '435415398'
+    }
   }
 })

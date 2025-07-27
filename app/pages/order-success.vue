@@ -31,6 +31,19 @@
           </p>
         </div>
 
+        <!-- Информация о заказе -->
+        <div class="bg-white rounded-lg shadow-sm border p-6">
+          <h2 class="text-lg font-semibold text-gray-800 mb-3">
+            Детали заказа
+          </h2>
+          <div class="space-y-2 text-sm text-gray-600">
+            <p><strong>Получатель:</strong> {{ orderDetails.recipientName }}</p>
+            <p><strong>Телефон:</strong> {{ orderDetails.phone }}</p>
+            <p><strong>Сумма заказа:</strong> <span class="text-green-600 font-semibold">{{ orderDetails.totalPrice }} ₽</span></p>
+            <p><strong>Статус:</strong> <span class="text-green-600 font-semibold">Оформлен</span></p>
+          </div>
+        </div>
+
         <!-- Дополнительная информация -->
         <div class="bg-gray-50 rounded-lg p-6">
           <h2 class="text-lg font-semibold text-gray-800 mb-3">
@@ -62,8 +75,19 @@
 </template>
 
 <script setup>
+import { useOrder } from '@/composables/useOrder'
+
 // Состояние загрузки
 const loading = ref(true)
+
+// Получаем детали заказа
+const { getOrderDetails } = useOrder()
+const orderDetails = computed(() => getOrderDetails() || {
+  recipientName: 'Не указано',
+  phone: 'Не указано',
+  totalPrice: 0,
+  items: []
+})
 
 // Имитируем загрузку данных
 onMounted(() => {

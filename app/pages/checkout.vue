@@ -72,6 +72,22 @@
             <div class="space-y-4">
               <div>
                 <label class="block text-sm font-medium text-gray-700 mb-2">
+                  Имя получателя
+                </label>
+                <input
+                  v-model="recipientName"
+                  type="text"
+                  placeholder="Введите ваше имя"
+                  class="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-green-500 focus:border-green-500 transition-colors"
+                  :class="{ 'border-red-500': nameError }"
+                  @input="validateName"
+                />
+                <p v-if="nameError" class="text-red-500 text-sm mt-1">
+                  {{ nameError }}
+                </p>
+              </div>
+              <div>
+                <label class="block text-sm font-medium text-gray-700 mb-2">
                   Номер телефона
                 </label>
                 <input
@@ -156,8 +172,10 @@
 <script setup>
 import { ref, computed, onMounted } from 'vue'
 import { useCart } from '@/composables/useCart'
+import { useOrder } from '@/composables/useOrder'
 
 const { getCartItems, clearCart } = useCart()
+const { setOrderDetails } = useOrder()
 
 const loading = ref(true)
 const products = ref([])
@@ -186,11 +204,15 @@ const totalPrice = computed(() => {
 // Форма
 const phone = ref('')
 const phoneError = ref('')
+const recipientName = ref('')
+const nameError = ref('')
 const isSubmitting = ref(false)
 
 // Валидация формы
 const isFormValid = computed(() => {
-  return phone.value.trim().length >= 10 && cartItems.value.length > 0
+  return phone.value.trim().length >= 10 && 
+         recipientName.value.trim().length >= 2 && 
+         cartItems.value.length > 0
 })
 
 // Форматирование телефона
@@ -234,6 +256,20 @@ const formatPhone = () => {
   phone.value = formatted
 }
 
+// Валидация имени
+const validateName = () => {
+  if (!recipientName.value.trim()) {
+    nameError.value = 'Введите имя получателя'
+    return false
+  }
+  if (recipientName.value.trim().length < 2) {
+    nameError.value = 'Имя должно содержать минимум 2 символа'
+    return false
+  }
+  nameError.value = ''
+  return true
+}
+
 // Валидация телефона
 const validatePhone = () => {
   const phoneRegex = /^\+7\s?\(\d{3}\)\s?\d{3}-\d{2}-\d{2}$/
@@ -257,34 +293,49 @@ const getTelegramUserName = () => {
   return '';
 }
 
-const sendOrderToTelegram = async (phone, cartItems, totalPrice) => {
+const sendOrderToTelegram = async (recipientName, phone, cartItems, totalPrice) => {
   if (!cartItems.length) return; // Не отправлять пустой заказ
-  const chatId = '435415398';
+  
+  const config = useRuntimeConfig()
+  const chatId = config.public.telegramChatId;
+  const botToken = config.public.telegramBotToken;
+  
   const userName = getTelegramUserName();
   let text = `🛒 Новый заказ\n`;
-  if (userName) text += `Имя: ${userName}\n`;
+  text += `Получатель: ${recipientName}\n`;
+  if (userName) text += `Пользователь Telegram: ${userName}\n`;
   text += `Телефон: ${phone}\n`;
   text += '\nТовары:';
   cartItems.forEach(item => {
     text += `\n- ${item.product.name} (${item.quantity} x ${item.product.price}₽)`;
   });
   text += `\n\nИтого: ${totalPrice}₽`;
-  const url = `https://api.telegram.org/bot7588197727:AAEPsmserZqQa0VOsoguwc6KyTx_Otzor6U/sendMessage?chat_id=${chatId}&text=${encodeURIComponent(text)}`;
+  
+  const url = `https://api.telegram.org/bot${botToken}/sendMessage?chat_id=${chatId}&text=${encodeURIComponent(text)}`;
   try {
     await fetch(url);
   } catch (e) {
     // Можно добавить обработку ошибки
+    console.error('Ошибка отправки в Telegram:', e);
   }
 }
 
 // Оформление заказа
 const submitOrder = async () => {
-  if (!validatePhone()) return
+  if (!validateName() || !validatePhone()) return
   
   isSubmitting.value = true
   
+  // Сохраняем детали заказа
+  setOrderDetails({
+    recipientName: recipientName.value,
+    phone: phone.value,
+    totalPrice: totalPrice.value,
+    items: cartItems.value
+  })
+  
   // Имитируем отправку заказа
-  await sendOrderToTelegram(phone.value, cartItems.value, totalPrice.value);
+  await sendOrderToTelegram(recipientName.value, phone.value, cartItems.value, totalPrice.value);
   
   // Очищаем корзину
   clearCart()
